@@ -19,6 +19,13 @@ type status struct {
 	User user   `json:"user"`
 }
 
+var name *string = flag.String(
+	"name",
+	"here",
+	"please write your name here! ",
+	)
+
+
 var tweet *string = flag.String(
 	"tweet",
 	"here",
@@ -42,8 +49,13 @@ func main() {
 	flag.Parse()
 	fmt.Println("loading consumerkey......")
 	loading()
-	post_tweet()
-
+	if *tweet != "here"{
+		post_tweet()
+	}
+	
+	if *name != "here"{
+		post_name()
+	}
 }
 
 var c = oauth.NewConsumer(
@@ -92,4 +104,19 @@ func post_tweet() {
 
 	fmt.Println("tweeted!!")
 
+}
+
+
+
+func post_name() {
+
+	response, err := c.Post("https://api.twitter.com/1.1/account/update_profile.json",
+		map[string]string{"name": *name}, accessToken)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer response.Body.Close()
+
+	fmt.Println("name posted!!")
+	
 }
