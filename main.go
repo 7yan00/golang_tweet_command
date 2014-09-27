@@ -84,7 +84,7 @@ func loading() {
 func post_tweet() {
 
 	response, err := c.Post("https://api.twitter.com/1.1/statuses/update.json",
-		map[string]string{"status": tweet}, accessToken)
+		map[string]string{"status": *tweet}, accessToken)
 	if err != nil {
 		log.Fatal(err)
 	}
